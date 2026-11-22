@@ -1,7 +1,25 @@
 @import "tailwindcss";
 
-html, body, #root {
-  height: 100%;
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: #0a0a0f;
+}
+
+body {
   margin: 0;
   background: #0a0a0f;
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
+}
+
+details > summary {
+  list-style: none;
+}
+details > summary::-webkit-details-marker {
+  display: none;
 }
