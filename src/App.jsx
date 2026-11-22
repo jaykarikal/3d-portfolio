@@ -1,122 +1,51 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { Canvas } from '@react-three/fiber'
+import {
+  OrbitControls, Environment, Float,
+  MeshDistortMaterial, ContactShadows,
+} from '@react-three/drei'
 
-function App() {
-  const [count, setCount] = useState(0)
-
+function Blob() {
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+    <Float speed={2} rotationIntensity={1} floatIntensity={2}>
+      <mesh>
+        <icosahedronGeometry args={[1.4, 64]} />
+        <MeshDistortMaterial
+          color="#7c3aed" distort={0.35} speed={2}
+          roughness={0.1} metalness={0.6}
+        />
+      </mesh>
+    </Float>
   )
 }
 
-export default App
+export default function App() {
+  return (
+    <main className="relative h-screen w-full overflow-hidden">
+      <div className="absolute inset-0">
+        <Canvas dpr={[1, 1.5]} camera={{ position: [0, 0, 5], fov: 40 }}>
+          <ambientLight intensity={0.4} />
+          <directionalLight position={[5, 5, 5]} intensity={1.5} />
+          <Blob />
+          <ContactShadows position={[0, -2, 0]} opacity={0.4} blur={2.5} scale={10} />
+          <Environment preset="city" />
+          <OrbitControls enableZoom={false} enablePan={false} />
+        </Canvas>
+      </div>
+
+      <div className="pointer-events-none relative z-10 flex h-full flex-col justify-end p-8 text-white md:p-16">
+        <p className="mb-3 text-sm uppercase tracking-[0.3em] text-violet-300">
+          Jay Karikal · 3D Web Studio
+        </p>
+        <h1 className="max-w-3xl text-4xl font-bold leading-tight md:text-7xl">
+          Websites your customers can touch.
+        </h1>
+        <a
+          href="https://wa.me/91XXXXXXXXXX"
+          className="pointer-events-auto mt-8 w-fit rounded-full bg-white px-6 py-3 font-semibold text-black transition hover:scale-105"
+        >
+          Get a free preview →
+        </a>
+      </div>
+    </main>
+  )
+}
